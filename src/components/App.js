@@ -1,15 +1,39 @@
-import React from "react";
-import Article from './Article';
-import articles from '../fixtures'
+import React, { Component, PureComponent } from "react";
+import ArticleList from "./ArticleList";
+import articles from "../fixtures";
+import "bootstrap/dist/css/bootstrap.css";
 
+class App extends PureComponent {
+  state = {
+    reverted: false,
+  };
+  
 
-function App() {
+  render() {
     return (
-      <div>
-        <h1>App Name</h1>
-        <Article article={articles[0]} foo="bard" flag/>
+      <div className="container">
+        <div className="jumbotron">
+          <h1 className="display-3">
+            App Name
+            <button className="btn" onClick={this.revert}>
+              Revert
+            </button>
+          </h1>
+        </div>
+        <ArticleList
+          articles={
+           this.state.reverted ? articles.slice().reverse() : articles
+          }
+        />
       </div>
     );
   }
 
-  export default App
+  revert = () => {
+    this.setState({
+      reverted: !this.state.reverted,
+    });
+  };
+}
+
+export default App;
